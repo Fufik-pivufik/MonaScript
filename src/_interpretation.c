@@ -1,4 +1,5 @@
 #include "./_intepretation.h"
+#include <string.h>
 
 ASTnode* parse(Parser* parser)
 {
@@ -21,6 +22,15 @@ ASTnode* parse(Parser* parser)
     {
       if (parser->tokens[i]->t == TOKEN_NUL)
         continue;
+
+      if (parser->tokens[i]->t == TOKEN_IMPORT)
+      {
+        printf("sosal\n");
+        char* filename = malloc(strlen(parser->tokens[i]->value) + 5);
+        strcpy(filename, parser->tokens[i]->value);
+        exec(filename);
+        continue;
+      }
 
       if (po < (int)(parser->tokens[i]->t) + is_in_par * (int)(TOKEN_LPARENT) &&
           parser->tokens[i]->t < TOKEN_LPARENT)

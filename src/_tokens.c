@@ -24,30 +24,6 @@ Token** tokenize(const char* expr, unsigned long* count)
       continue;
     }
 
-    if (expr[i] == '@')
-    {
-      i++;
-      int start = i;
-      if (!isalnum(expr[i]))
-      {
-        printf("error expected filename after @, found: "
-               "\e[38;2;255;100;150m%c\e[0m\n",
-               expr[i]);
-        abort();
-      }
-
-      while (isalnum(expr[i]))
-        i++;
-
-      int len = i - start;
-      char* fname = malloc(len + 1);
-      strncpy(fname, &expr[start], len);
-      fname[len] = '\0';
-      Token* token = cr_Token(TOKEN_IMPORT, fname);
-      tokens[(*count)++] = token;
-      continue;
-    }
-
     if (isdigit(expr[i]))
     {
       unsigned long start = i;

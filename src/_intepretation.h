@@ -7,5 +7,7 @@
 
 ASTnode* parse(Parser* parser);
 ASTnode* next_binary_node(Parser* parser);
+void exec(const char* filepath);
+char* get_pathdir(const char* filepath);
 
 #endif
