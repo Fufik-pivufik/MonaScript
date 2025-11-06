@@ -23,9 +23,11 @@ int main(int argc, char* argv[])
   while (1)
   {
     printf("> ");
-    fgets(expr, BUFF_SIZE - 1, stdin);
-    if (strcmp(expr, "exit\n") == 0 || expr[0] == EOF)
+    void* handl = fgets(expr, BUFF_SIZE - 1, stdin);
+    if (strcmp(expr, "exit\n") == 0 || handl == NULL)
     {
+      if (handl == NULL)
+        printf("\n");
       printf("> exit shell...\n");
       break;
     }
