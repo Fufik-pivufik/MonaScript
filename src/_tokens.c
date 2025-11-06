@@ -39,6 +39,23 @@ Token** tokenize(const char* expr, unsigned long* count)
       continue;
     }
 
+    if (expr[i] == '"')
+    {
+      i++;
+      unsigned long start = i;
+      while (expr[i] != '"')
+        i++;
+
+      unsigned long len = i - start;
+
+      char* string = malloc(len + 1);
+      strncpy(string, &expr[start], len);
+      string[len] = '\0';
+      Token* str = cr_Token(TOKEN_STRING, string);
+      tokens[(*count)++] = str;
+      continue;
+    }
+
     switch (expr[i])
     {
     case '+':

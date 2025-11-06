@@ -23,12 +23,9 @@ ASTnode* parse(Parser* parser)
       if (parser->tokens[i]->t == TOKEN_NUL)
         continue;
 
-      if (parser->tokens[i]->t == TOKEN_IMPORT)
+      if (parser->tokens[i]->t == TOKEN_STRING)
       {
-        printf("sosal\n");
-        char* filename = malloc(strlen(parser->tokens[i]->value) + 5);
-        strcpy(filename, parser->tokens[i]->value);
-        exec(filename);
+        parser->tokens[i]->t = TOKEN_NUL;
         continue;
       }
 

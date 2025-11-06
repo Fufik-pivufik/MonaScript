@@ -12,6 +12,7 @@ typedef enum
 {
   TOKEN_NUL,
   TOKEN_NUMBER,
+  TOKEN_STRING,
   TOKEN_CONST,
 
   TOKEN_PLUS,
