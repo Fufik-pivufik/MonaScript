@@ -21,7 +21,7 @@ typedef enum
 
   TOKEN_LPARENT,
   TOKEN_RPARENT,
-
+  TOKEN_IMPORT,
 } TOKEN_TYPE;
 
 typedef struct
