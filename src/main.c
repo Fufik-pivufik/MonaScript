@@ -38,10 +38,18 @@ int main(int argc, char* argv[])
     // show_parser(parser);
 
     ASTnode* node = parse(parser);
-    double result = inter_AST(node);
+    Type result = inter_AST(node);
 
-    printf("> %.2f\n", result);
+    switch (result.t)
+    {
+    case TYPE_NUMBER:
+      printf("> %.2f\n", result.value.num);
+      break;
 
+    case TYPE_STRING:
+      printf("> %s\n", result.value.str);
+      break;
+    }
     free(node);
     free(parser);
     free(tokens);

@@ -16,8 +16,9 @@ Token** tokenize(const char* expr, unsigned long* count)
   *count = 0;
   unsigned long i = 0;
 
-  while (expr[i] != '\0')
+  while (i < strlen(expr))
   {
+    // printf("| %d, %c, len = %d\n", i, expr[i], strlen(expr));
     if (expr[i] == ' ')
     {
       ++i;
@@ -43,8 +44,12 @@ Token** tokenize(const char* expr, unsigned long* count)
     {
       i++;
       unsigned long start = i;
-      while (expr[i] != '"')
+      while (expr[i] != '"' && i < strlen(expr))
         i++;
+      if (i == strlen(expr))
+      {
+        exit(1);
+      }
 
       unsigned long len = i - start;
 
@@ -53,6 +58,8 @@ Token** tokenize(const char* expr, unsigned long* count)
       string[len] = '\0';
       Token* str = cr_Token(TOKEN_STRING, string);
       tokens[(*count)++] = str;
+      // printf("| %s\n", string);
+      i++;
       continue;
     }
 

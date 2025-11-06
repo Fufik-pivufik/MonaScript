@@ -8,11 +8,22 @@ ASTnode* parse(Parser* parser)
   int is_in_par = 0;
 
   for (unsigned long i = 0; i < parser->tokens_count; ++i)
+  {
     if (parser->tokens[i]->t == TOKEN_NUMBER)
     {
       res[i] = cr_num_AST(atof(parser->tokens[i]->value));
       parser->tokens[i]->t = TOKEN_NUL;
     }
+
+    else if (parser->tokens[i]->t == TOKEN_STRING)
+    {
+      res[i] = cr_str_AST(parser->tokens[i]->value);
+      // printf("| %d\n", i);
+      parser->tokens[i]->t = TOKEN_NUL;
+    }
+
+    last = i;
+  }
 
   while (is_all_null(parser))
   {
@@ -22,12 +33,6 @@ ASTnode* parse(Parser* parser)
     {
       if (parser->tokens[i]->t == TOKEN_NUL)
         continue;
-
-      if (parser->tokens[i]->t == TOKEN_STRING)
-      {
-        parser->tokens[i]->t = TOKEN_NUL;
-        continue;
-      }
 
       if (po < (int)(parser->tokens[i]->t) + is_in_par * (int)(TOKEN_LPARENT) &&
           parser->tokens[i]->t < TOKEN_LPARENT)

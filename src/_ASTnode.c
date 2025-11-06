@@ -1,4 +1,4 @@
-#include "./_ASTnode.h"
+#include "_ASTnode.h"
 
 ASTnode* cr_num_AST(double num)
 {
@@ -30,32 +30,60 @@ ASTnode* cr_binary_AST(char op, ASTnode* left, ASTnode* right)
   return bin_node;
 }
 
-double inter_AST(ASTnode* node)
+ASTnode* cr_str_AST(char* str)
 {
+  ASTnode* str_node = malloc(sizeof(ASTnode));
+
+  str_node->t = AST_STRING;
+  str_node->node.str.value = str;
+  str_node->node.str.len = strlen(str);
+
+  return str_node;
+}
+
+Type inter_AST(ASTnode* node)
+{
+  Type result;
   switch (node->t)
   {
+  case AST_STRING:
+    result.t = TYPE_STRING;
+    result.value.str = node->node.str;
+    break;
   case AST_NUMBER:
-    return node->node.number.val;
-
+    result.t = TYPE_NUMBER;
+    result.value.num = node->node.number.val;
+    break;
   case AST_UNARY:
     if (node->node.unary.op == '-')
-      return -inter_AST(node->node.unary.right);
+      result = inter_AST(node->node.unary.right);
+    result.value.num = -result.value.num;
+    break;
 
   case AST_BINARY:
-    double left = inter_AST(node->node.binary.left);
-    double right = inter_AST(node->node.binary.right);
+    Type left = inter_AST(node->node.binary.left);
+    Type right = inter_AST(node->node.binary.right);
 
-    switch (node->node.binary.op)
-    {
-    case '+':
-      return left + right;
-    case '-':
-      return left - right;
-    case '*':
-      return left * right;
-    case '/':
-      return left / right;
-    }
+    if (left.t == right.t && right.t == TYPE_NUMBER)
+      switch (node->node.binary.op)
+      {
+      case '+':
+        result.t = TYPE_NUMBER;
+        result.value.num = left.value.num + right.value.num;
+        break;
+      case '-':
+        result.t = TYPE_NUMBER;
+        result.value.num = left.value.num - right.value.num;
+        break;
+      case '*':
+        result.t = TYPE_NUMBER;
+        result.value.num = left.value.num * right.value.num;
+        break;
+      case '/':
+        result.t = TYPE_NUMBER;
+        result.value.num = left.value.num / right.value.num;
+        break;
+      }
   }
-  return 0;
+  return result;
 }

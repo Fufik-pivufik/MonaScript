@@ -1,5 +1,6 @@
 #include "./_intepretation.h"
 #include "_main_definitions.h"
+#include "_types.h"
 
 void exec(const char* filepath)
 {
@@ -16,6 +17,7 @@ void exec(const char* filepath)
 
   while (fgets(expr, BUFF_SIZE - 1, src) != NULL)
   {
+    expr[strlen(expr) - 1] = '\0';
     if (expr[0] == '#')
       continue;
 
@@ -51,13 +53,23 @@ void exec(const char* filepath)
       continue;
 
     Token** tokens = tokenize(expr, &tokens_count);
-
     Parser* parser = cr_Parser(tokens, tokens_count);
+    // show_parser(parser);
 
     ASTnode* node = parse(parser);
-    double result = inter_AST(node);
+    // printf("| %d\n", node->t);
+    Type result = inter_AST(node);
+    // printf("sos\n");
+    switch (result.t)
+    {
+    case TYPE_NUMBER:
+      printf("> %.2f\n", result.value.num);
+      break;
 
-    printf("> %.2f\n", result);
+    case TYPE_STRING:
+      printf("> %s\n", result.value.str);
+      break;
+    }
 
     free(node);
     free(parser);
