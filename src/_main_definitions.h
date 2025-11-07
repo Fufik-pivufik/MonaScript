@@ -1,5 +1,5 @@
-#ifndef MAIN_DIFINITIONS_H
-#define MAIN_DIFINITIONS_H
+#ifndef MAIN_DIFINITIONS___H
+#define MAIN_DIFINITIONS___H
 
 #define BUFF_SIZE 2048
 

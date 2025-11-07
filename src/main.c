@@ -9,17 +9,23 @@
 
 int main(int argc, char* argv[])
 {
+  const char* MnS_version = "v0.0001 alpha Egor";
   char expr[BUFF_SIZE];
   unsigned long tokens_count;
 
   if (argc > 1)
   {
-    exec(argv[1]);
+    if (strcmp(argv[1], "--version") == 0)
+    {
+      printf("MnS version: %s\n", MnS_version);
+      return 0;
+    }
 
+    exec(argv[1]);
     return 0;
   }
 
-  printf("\tWelcome to calculator\n");
+  printf("\tWelcome to MonaScript %s\n", MnS_version);
   while (1)
   {
     printf("> ");
