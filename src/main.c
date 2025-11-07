@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
     return 0;
   }
 
+  system("clear");
   printf("\tWelcome to MonaScript %s\n", MnS_version);
   while (1)
   {
