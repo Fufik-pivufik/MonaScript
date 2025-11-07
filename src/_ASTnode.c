@@ -84,6 +84,25 @@ Type inter_AST(ASTnode* node)
         result.value.num = left.value.num / right.value.num;
         break;
       }
+
+    if (left.t == right.t && right.t == TYPE_STRING)
+      switch (node->node.binary.op)
+      {
+      case '+':
+        result.t = TYPE_STRING;
+        result.value.str = str_merge(&left.value.str, &right.value.str);
+        break;
+      }
+
+    if (left.t == TYPE_STRING && right.t == TYPE_NUMBER)
+    {
+      if (node->node.binary.op == '*')
+      {
+        result.t = TYPE_STRING;
+        result.value.str =
+            conc(&left.value.str, (unsigned long)(right.value.num));
+      }
+    }
   }
   return result;
 }

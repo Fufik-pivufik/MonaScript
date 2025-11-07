@@ -11,5 +11,7 @@ typedef struct
 } String;
 
 String* cr_String(const char* value);
+String str_merge(const String* str1, const String* str2);
+String conc(const String* str, unsigned long num);
 
 #endif
